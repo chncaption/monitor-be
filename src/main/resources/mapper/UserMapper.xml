@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pancake.monitorbe.dao.UserMapper">
+    <resultMap type="com.pancake.monitorbe.entity.User" id="BaseResultMap">
+        <result property="loginName" jdbcType="VARCHAR" column="login_name"/>
+        <result property="username" jdbcType="VARCHAR" column="username"/>
+        <result property="password" jdbcType="VARCHAR" column="password"/>
+        <result property="auth" jdbcType="INTEGER" column="auth"/>
+        <result property="phoneNumber" jdbcType="VARCHAR" column="phone_number"/>
+    </resultMap>
+    <resultMap type="com.pancake.monitorbe.model.UserResult" id="UserResultMap">
+        <result property="loginName" jdbcType="VARCHAR" column="login_name"/>
+        <result property="username" jdbcType="VARCHAR" column="username"/>
+        <result property="password" jdbcType="VARCHAR" column="password"/>
+        <result property="auth" jdbcType="INTEGER" column="auth"/>
+        <result property="authComment" jdbcType="VARCHAR" column="auth_comment"/>
+        <result property="phoneNumber" jdbcType="VARCHAR" column="phone_number"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+       login_name,username,password,auth,phone_number
+    </sql>
+
+    <sql id="Selective_Column_List">
+        login_name,username,auth,phone_number
+    </sql>
+
+<!--
+    获取所有用户列表
+-->
+    <select id="getAllUserList" resultMap="UserResultMap">
+        select * from monitor.view_user
+    </select>
+
+    <!--
+        获取所有登录名列表（当为普通用户）
+    -->
+    <select id="getNormalLoginNameList" resultType="String">
+        select login_name from monitor.view_user where auth = 1
+    </select>
+
+<!--
+    登录验证
+-->
+    <select id="login" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from monitor.tb_user
+        where login_name = #{loginName} and password = #{password}
+    </select>
+
+<!--
+
+-->
+
+    <insert id="insertUser" parameterType="com.pancake.monitorbe.entity.User">
+        insert into monitor.tb_user(login_name,username,password,auth,phone_number)
+        values(#{loginName},#{username},#{password},#{auth},#{phoneNumber})
+    </insert>
+
+    <update id="updatedUser" parameterType="com.pancake.monitorbe.entity.User">
+        update monitor.tb_user
+        set
+            login_name=#{loginName},username=#{username},password=#{password},
+            auth=#{auth},phone_number=#{phoneNumber}
+        where login_name=#{loginName}
+    </update>
+
+    <delete id="deleteUser" parameterType="String">
+        delete from monitor.tb_user where login_name=#{loginName}
+    </delete>
+</mapper>

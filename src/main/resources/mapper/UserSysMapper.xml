@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pancake.monitorbe.dao.UserSysMapper">
+    <resultMap type="com.pancake.monitorbe.entity.UserSys" id="BaseResultMap">
+        <result property="loginName" jdbcType="VARCHAR" column="login_name"/>
+        <result property="sysCode" jdbcType="VARCHAR" column="sys_code"/>
+    </resultMap>
+    <resultMap type="com.pancake.monitorbe.model.UserSysResult" id="UserSysResultMap">
+        <result property="sysCode" jdbcType="VARCHAR" column="sys_code"/>
+        <result property="sysName" jdbcType="VARCHAR" column="sys_name"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        login_name,sys_code
+    </sql>
+
+    <select id="getAllUserSysListByLoginName" parameterType="String" resultMap="UserSysResultMap">
+        select sys_code, sys_name from monitor.view_user_sys where login_name = #{loginName}
+    </select>
+
+</mapper>

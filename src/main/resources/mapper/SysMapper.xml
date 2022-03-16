@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pancake.monitorbe.dao.SysMapper">
+    <resultMap type="com.pancake.monitorbe.entity.Sys" id="BaseResultMap">
+        <result property="sysCode" jdbcType="VARCHAR" column="sys_code"/>
+        <result property="sysName" jdbcType="VARCHAR" column="sys_name"/>
+        <result property="sysNameAbbr" jdbcType="VARCHAR" column="sys_name_abbr"/>
+        <result property="tmCount" jdbcType="INTEGER" column="tm_count"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        sys_code, sys_name, sys_name_abbr, tm_count
+    </sql>
+
+    <select id="getAllSystemList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from monitor.tb_sys
+        order by sys_code desc
+    </select>
+
+<!--    <insert id="insertSys" parameterType="com.pancake.monitorbe.entity.Sys">-->
+<!--        insert into monitor.tb_user(login_name,username,password,auth,phone_number)-->
+<!--        values(#{loginName},#{username},#{password},#{auth},#{phoneNumber})-->
+<!--    </insert>-->
+
+<!--    <update id="updatedSys" parameterType="com.pancake.monitorbe.entity.Sys">-->
+<!--        update monitor.tb_user-->
+<!--        set-->
+<!--            login_name=#{loginName},username=#{username},password=#{password},-->
+<!--            auth=#{auth},phone_number=#{phoneNumber}-->
+<!--        where login_name=#{loginName}-->
+<!--    </update>-->
+
+<!--    <delete id="deleteSys" parameterType="String">-->
+<!--        delete from monitor.tb_user where login_name=#{loginName}-->
+<!--    </delete>-->
+</mapper>

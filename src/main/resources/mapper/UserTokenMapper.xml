@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pancake.monitorbe.dao.UserTokenMapper">
+    <resultMap type="com.pancake.monitorbe.entity.UserToken" id="BaseResultMap">
+        <result property="loginName" jdbcType="VARCHAR" column="login_name"/>
+        <result property="token" jdbcType="VARCHAR" column="token"/>
+        <result property="updateTime" jdbcType="VARCHAR" column="update_time"/>
+        <result property="expireTime" jdbcType="INTEGER" column="expire_time"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        login_name, token, update_time, expire_time
+    </sql>
+
+<!--
+    通过主键选取
+-->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from monitor.tb_user_token
+        where login_name = #{loginName}
+    </select>
+<!--
+    选择性插入
+-->
+    <insert id="insertSelective" parameterType="com.pancake.monitorbe.entity.UserToken">
+        insert into monitor.tb_user_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loginName != null">
+                login_name,
+            </if>
+            <if test="token != null">
+                token,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="expireTime != null">
+                expire_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loginName != null">
+                #{loginName, jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                #{token, jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="expireTime != null">
+                #{expireTime, jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

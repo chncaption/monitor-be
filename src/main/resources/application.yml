@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    name: monitor-be-datasource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://cn-cd-dx-2.natfrp.cloud:47645/monitor?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&useAffectedRows=true
+    username: root
+    password: Wzw@121
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+#logging:
+#  config: classpath:log4j2-spring.xml

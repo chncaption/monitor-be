@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pancake.monitorbe.dao.TerminalMapper">
+    <resultMap type="com.pancake.monitorbe.entity.Terminal" id="TmResult">
+        <result property="sysCode" jdbcType="VARCHAR" column="sys_code"/>
+        <result property="tmCode" jdbcType="VARCHAR" column="tm_code"/>
+        <result property="tmName" jdbcType="VARCHAR" column="tm_name"/>
+        <result property="tmIp" jdbcType="VARCHAR" column="tm_ip"/>
+        <result property="lastUpdateTime" jdbcType="TIMESTAMP" column="last_update_time"/>
+        <result property="redWarnPeriod" jdbcType="INTEGER" column="red_warn_period"/>
+        <result property="yellowWarnPeriod" jdbcType="INTEGER" column="yellow_warn_period"/>
+        <result property="heartStat" jdbcType="INTEGER" column="heart_stat"/>
+        <result property="heartPeriod" jdbcType="INTEGER" column="heart_period"/>
+        <result property="dataStat" jdbcType="INTEGER" column="data_stat"/>
+    </resultMap>
+
+    <resultMap type="com.pancake.monitorbe.controller.param.MonitorTerminalParam" id="TmMonitorResult">
+        <result property="sysName" jdbcType="VARCHAR" column="sys_name"/>
+        <result property="tmName" jdbcType="VARCHAR" column="tm_name"/>
+        <result property="tmIp" jdbcType="VARCHAR" column="tm_ip"/>
+        <result property="lastUpdateTime" jdbcType="TIMESTAMP" column="last_update_time"/>
+        <result property="heartStat" jdbcType="INTEGER" column="heart_stat"/>
+        <result property="dataStat" jdbcType="INTEGER" column="data_stat"/>
+    </resultMap>
+
+    <select id="getAllTerminals" resultMap="TmResult">
+        select * from monitor.tb_terminal
+        order by sys_code desc
+    </select>
+
+    <select id="getMonitorTerminals" resultMap="TmMonitorResult">
+        select ts.sys_name, tm_name, tm_ip, last_update_time, heart_stat, data_stat
+        from monitor.tb_sys ts join monitor.tb_terminal tt on ts.sys_code = tt.sys_code
+        order by ts.sys_name
+    </select>
+
+    <select id="getTerminalsCount" resultType="Integer">
+        select count(*) from monitor.tb_terminal
+    </select>
+
+    <select id="getGreenHeartStatCount" resultType="Integer">
+        select count(*) from monitor.tb_terminal
+        where heart_stat = 0
+    </select>
+
+    <select id="getYellowHeartStatCount" resultType="Integer">
+        select count(*) from monitor.tb_terminal
+        where heart_stat = 1
+    </select>
+
+    <select id="getRedHeartStatCount" resultType="Integer">
+        select count(*) from monitor.tb_terminal
+        where heart_stat = 2
+    </select>
+
+    <select id="getGreenDataStatCount" resultType="Integer">
+        select count(*) from monitor.tb_terminal
+        where data_stat = 0
+    </select>
+
+    <select id="getYellowDataStatCount" resultType="Integer">
+        select count(*) from monitor.tb_terminal
+        where data_stat = 1
+    </select>
+
+    <select id="getRedDataStatCount" resultType="Integer">
+        select count(*) from monitor.tb_terminal
+        where data_stat = 2
+    </select>
+
+    <!--    <insert id="insertSys" parameterType="com.pancake.monitorbe.entity.Sys">-->
+    <!--        insert into monitor.tb_user(login_name,username,password,auth,phone_number)-->
+    <!--        values(#{loginName},#{username},#{password},#{auth},#{phoneNumber})-->
+    <!--    </insert>-->
+
+    <!--    <update id="updatedSys" parameterType="com.pancake.monitorbe.entity.Sys">-->
+    <!--        update monitor.tb_user-->
+    <!--        set-->
+    <!--            login_name=#{loginName},username=#{username},password=#{password},-->
+    <!--            auth=#{auth},phone_number=#{phoneNumber}-->
+    <!--        where login_name=#{loginName}-->
+    <!--    </update>-->
+
+    <!--    <delete id="deleteSys" parameterType="String">-->
+    <!--        delete from monitor.tb_user where login_name=#{loginName}-->
+    <!--    </delete>-->
+</mapper>
